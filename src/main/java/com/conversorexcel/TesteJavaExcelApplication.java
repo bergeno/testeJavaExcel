@@ -1,7 +1,5 @@
 package com.conversorexcel;
 
-import java.time.LocalDate;
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,20 +23,24 @@ public class TesteJavaExcelApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		LocalDate date = LocalDate.now();
-		Aluno aluno1 = new Aluno(12L, "Rafael", 'M',date , 10.00,8.00 , 9.00);
-//		repository.save(aluno1); 
-		List<Aluno> alunos = repository.findAll();
-		for (Aluno aluno : alunos) {
-			System.out.println(aluno);
-		}
 		
-		AlunoController controle = new AlunoController();
-		List<String> listaLinhas = controle.geraLinhas();
-		for (String linha : listaLinhas) {
-			System.out.print(linha);
-		}
+		// Objeto para manipulação de arquivos
+		AlunoController controle = new AlunoController(repository);
 		
+		// extrai os dados da base importação para uma lista
+		List<Aluno> listaAlunos = controle.geraAlunos();
+		
+		//Salva a lista no banco dedados
+		//repository.saveAll(listaAlunos);
+		
+		//Gera arquivo da aba 1 com base no banco de dados
+		controle.geraAba01();
+		
+		//Gera arquivo da aba 2 com base no banco de dados
+		controle.geraAba02();
+		
+		//Gera arquivo da aba 3 com base no banco de dados
+		controle.geraAba03();
 	}
 	
 	

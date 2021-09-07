@@ -1,6 +1,7 @@
 package com.conversorexcel.domain;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -30,6 +31,21 @@ public class Aluno {
 		this.notaPrimeiroTrimestre = notaPrimeiroTrimestre;
 		this.notaSegundoTrimestre = notaSegundoTrimestre;
 		this.notaTerceiroTrimestre = notaTerceiroTrimestre;
+	}
+	
+	public int calculaIdade() {
+		LocalDate dataAtual = LocalDate.now();
+		int idade = dataAtual.compareTo(dataNascimento);
+		return idade;
+	}
+	
+	public double calculaSomaNotas() {
+		return notaPrimeiroTrimestre + notaSegundoTrimestre + notaTerceiroTrimestre;
+	}
+	
+	public double calculaMedia() {
+		return 
+			(notaPrimeiroTrimestre + notaSegundoTrimestre + notaTerceiroTrimestre) / 3;
 	}
 
 	public Long getIdentificacao() {
@@ -88,9 +104,10 @@ public class Aluno {
 		this.notaTerceiroTrimestre = notaTerceiroTrimestre;
 	}
 
+	
 	@Override
 	public int hashCode() {
-		return Objects.hash(identificacao);
+		return Objects.hash(nome);
 	}
 
 	@Override
@@ -102,16 +119,24 @@ public class Aluno {
 		if (getClass() != obj.getClass())
 			return false;
 		Aluno other = (Aluno) obj;
-		return Objects.equals(identificacao, other.identificacao);
+		return Objects.equals(nome, other.nome);
 	}
 
 	@Override
 	public String toString() {
-		return "Boletim [identificacao=" + identificacao + ", nome=" + nome + ", sexo=" + sexo + ", dataNascimento="
-				+ dataNascimento + ", notaPrimeiroTrimestre=" + notaPrimeiroTrimestre + ", notaSegundoTrimestre="
-				+ notaSegundoTrimestre + ", notaTerceiroTrimestre=" + notaTerceiroTrimestre + "]";
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		String data = dtf.format(dataNascimento);
+		
+		return identificacao + ";" + nome + ";" + sexo + ";"
+				+ data + ";" + notaPrimeiroTrimestre + ";"
+				+ notaSegundoTrimestre + ";" + notaTerceiroTrimestre;
 	}
 	
+	public String toStringAba02() {
+		
+		return identificacao + ";" + nome + ";" + calculaIdade() 
+		+ ";" + String.format("%.2f", calculaMedia());
+	}
 	
 	
 }
