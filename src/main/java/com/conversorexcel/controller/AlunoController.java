@@ -3,15 +3,18 @@ package com.conversorexcel.controller;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AlunoController {
 
 	private String texto;
+	private List<String> lista;
 	private String path = "baseImportacao.csv";
 	
 	private FileReader reader;
 	
-	public String extrairTexto() throws IOException {
+	private String extrairTexto() throws IOException {
 		
 		reader = new FileReader(new File(path));
 		StringBuilder sb = new StringBuilder();
@@ -29,4 +32,20 @@ public class AlunoController {
 		return texto;
 	}
 	
+	public List<String> geraLinhas() throws IOException{
+		
+		extrairTexto();
+		String[] linhas = texto.split("\n");
+		lista = new ArrayList<>();
+		
+		for(String linha : linhas) {
+			
+			lista.add(linha);
+			
+		}
+		return lista;
+		
+	}
+	
+
 }

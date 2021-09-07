@@ -9,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.conversorexcel.controller.AlunoController;
 import com.conversorexcel.domain.Aluno;
 import com.conversorexcel.repository.AlunoRepository;
 
@@ -31,7 +32,15 @@ public class TesteJavaExcelApplication implements CommandLineRunner {
 		for (Aluno aluno : alunos) {
 			System.out.println(aluno);
 		}
+		
+		AlunoController controle = new AlunoController();
+		List<String> listaLinhas = controle.geraLinhas();
+		for (String linha : listaLinhas) {
+			System.out.print(linha);
+		}
+		
 	}
+	
 	
 
 }
